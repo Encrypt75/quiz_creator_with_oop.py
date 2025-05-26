@@ -5,7 +5,7 @@ import os
 class QuizProgram:
     def __init__(self):
         self.filename = "json_text.json"
-        
+
     #error handling
     def valid_input(self, correct_letter):
         valid_input_for_choices = ["a", "b", "c", "d"]
@@ -56,6 +56,46 @@ class QuizProgram:
 
         self.data_saver(quiz_data)
 
+    def main_quiz(self):
+        quiz_data = self.file_load()
+        if not quiz_data:
+            print("No questions was saved yet")
+            return
+
+        qstns_available = len(quiz_data)
+
+        while True:
+            try:
+                qstns_cnt = int(input(f"How many questions will you take? (1 to {qstns_available}): "))
+                if 1 <= qstns_cnt <= qstns_available:
+                    break
+                else:
+                    print(f"Please enter a number between 1 and {qstns_available}.")
+            except ValueError:
+                print("Please enter a valid number.")
+
+        selected_questions = quiz_data[:qstns_cnt]
+        init_score = 0
+
+        for quiz in selected_questions:
+            print(f"\n{quiz['question']}")
+            for letter, opt in zip(["a", "b", "c", "d"], quiz["option"]):
+                print(f"{letter}. {opt}")
+
+            answer = self.valid_input("your answer: ").lower()
+            if answer == quiz["correct_answer"]:
+                init_score += 1
+            else:
+                print(f"Incorrect. The correct answer was: {quiz['correct_answer']}")
+
+        if init_score == qstns_cnt:
+            print(f"PERFECT!\nscore: {init_score}/{qstns_cnt}")
+        elif init_score >= 0.75 * qstns_cnt:
+            print(f"CONGRATS!\nscore: {init_score}/{qstns_cnt}")
+        else:
+            print(f"you did great, try again next time\nscore: {init_score}/{qstns_cnt}")
+
 if __name__ == "__main__":
     quiz = QuizProgram()
     quiz.add_questions()
+    quiz.main_quiz()
