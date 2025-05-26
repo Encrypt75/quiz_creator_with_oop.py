@@ -1,6 +1,9 @@
 import json
 import os
 import random
+from colorama import init, Fore, Style
+
+init()
 
 #main class
 class QuizProgram:
@@ -47,7 +50,7 @@ class QuizProgram:
         quiz_data = self.file_load()
 
         while True:
-            questions = input(f"\nEnter question: ").strip()
+            questions = input(Fore.YELLOW + Style.BRIGHT + f"\nEnter question: " + Style.RESET_ALL)
             options = [input(f"Enter option {choice}: ") for choice in ["a", "b", "c", "d"]]
             correct_answers = self.valid_input("Enter correct answer: ").lower()
 
@@ -88,16 +91,16 @@ class QuizProgram:
         init_score = 0
 
         for quiz in selected_questions:
-            print(f"\n{quiz['question']}")
+            print(Fore.BLUE + Style.BRIGHT + f"\n{quiz['question']}" + Style.RESET_ALL)
             for letter, opt in zip(["a", "b", "c", "d"], quiz["option"]):
-                print(f"{letter}. {opt}")
+                print(Fore.YELLOW + f"{letter}. {opt}" + Style.RESET_ALL)
 
             answer = self.valid_input("your answer: ").lower()
             if answer == quiz["correct_answer"]:
-                print(f"correct, {random.choice(self.comments)}")
+                print(Fore.GREEN + Style.BRIGHT + f"correct, {random.choice(self.comments)}" + Style.RESET_ALL)
                 init_score += 1
             else:
-                print(f"Incorrect. The correct answer was: {quiz['correct_answer']}")
+                print(Fore.RED + Style.BRIGHT + f"Incorrect. The correct answer was: {quiz['correct_answer']}" + Style.RESET_ALL)
 
         if init_score == qstns_cnt:
             print(f"PERFECT!\nscore: {init_score}/{qstns_cnt}")
@@ -109,7 +112,8 @@ class QuizProgram:
     #calling the functions for main program
     def main_program(self):
         while True:
-            choice = self.valid_input(f"\nProgram Menu:\na.) add questions\nb.) take a quiz\nc.) exit program\n=> ").lower().strip()
+            choice = self.valid_input(
+                Fore.MAGENTA + "\nProgram Menu:\na.) add questions\nb.) take a quiz\nc.) exit program\n=> " + Style.RESET_ALL).lower().strip()
 
             if choice == "a":
                 self.add_questions()
