@@ -106,7 +106,21 @@ class QuizProgram:
         else:
             print(f"you did great, try again next time\nscore: {init_score}/{qstns_cnt}")
 
+    #calling the functions for main program
+    def main_program(self):
+        while True:
+            choice = self.valid_input(f"\nProgram Menu:\na.) add questions\nb.) take a quiz\nc.) exit program\n=> ").lower().strip()
+
+            if choice == "a":
+                self.add_questions()
+            elif choice == "b":
+                self.main_quiz()
+            elif choice == "c":
+                print("exiting...")
+                break
+            else:
+                print("invalid, try again")
+
 if __name__ == "__main__":
     quiz = QuizProgram()
-    quiz.add_questions()
-    quiz.main_quiz()
+    quiz.main_program()
