@@ -1,10 +1,19 @@
 import json
 import os
+import random
 
 #main class
 class QuizProgram:
     def __init__(self):
         self.filename = "json_text.json"
+        self.comments = [
+            "wow you are great",
+            "how do you know that one?",
+            "you are bright",
+            "are you trying to ace it?",
+            "nice!",
+            "is it just me? or are you killing it"
+        ]
 
     #error handling
     def valid_input(self, correct_letter):
@@ -74,6 +83,7 @@ class QuizProgram:
             except ValueError:
                 print("Please enter a valid number.")
 
+        random.shuffle(quiz_data)
         selected_questions = quiz_data[:qstns_cnt]
         init_score = 0
 
@@ -84,6 +94,7 @@ class QuizProgram:
 
             answer = self.valid_input("your answer: ").lower()
             if answer == quiz["correct_answer"]:
+                print(f"correct, {random.choice(self.comments)}")
                 init_score += 1
             else:
                 print(f"Incorrect. The correct answer was: {quiz['correct_answer']}")
